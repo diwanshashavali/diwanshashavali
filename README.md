@@ -1,6 +1,6 @@
 <h1 align="center">Hi 👋, I'm Diwan Shashavali</h1>
 <h3 align="center">
-Splunk SIEM: Analyzing logs, troubleshooting, and creating actionable insights.
+Splunk SIEM: Analyzing logs, troubleshooting, and creating actionable insights./
 Networking: Configuring routers, switches, and dynamic/static routing protocols like RIP and Inter-VLAN routing</h3>
 
 - 🔭 I’m currently working on **Splunk tool.**
