@@ -1,20 +1,98 @@
-<h1 align="center">Hi 👋, I'm Diwan Shashavali</h1>
-<h3 align="center">
-Splunk SIEM: Analyzing logs, troubleshooting, and creating actionable insights.<br>
-Networking: Configuring routers, switches, and dynamic/static routing protocols like RIP and Inter-VLAN routing</h3>
+# 🧠 Splunk Web Server Log Analysis Dashboard
 
-- 🔭 I’m currently working on **Splunk tool.**
+### 📌 Overview
+This project demonstrates how to analyze **Apache/Nginx web server access logs** using Splunk.
+It includes dashboards to visualize:
+- Top visitors (by IP)
+- Most accessed URLs
+- HTTP status code trends
+- 404 errors and their sources
+- Traffic over time
 
-- 🌱 I’m currently learning **Splunk and Networking**
+### ⚙️ Project Structure
+```
+splunk-web-log-analysis/
+├── dashboards/
+│   └── web_traffic_overview.xml
+├── sample_logs/
+│   └── apache_access.log
+├── configs/
+│   ├── inputs.conf
+│   └── props.conf
+├── screenshots/
+│   ├── overview.png
+│   └── errors.png
+└── README.md
+```
 
-- 📫 How to reach me **diwanshashavali@gmail.com**
+### 🧩 Configuration Details
 
-- ⚡ Fun fact **I am funny**
+#### 1️⃣ inputs.conf
+```ini
+[monitor:///opt/logs/apache_access.log]
+sourcetype = apache:access
+index = web_index
+disabled = false
+```
 
-<h3 align="left">Connect with me:</h3>
-<p align="left">
-<a href="https://linkedin.com/in/diwan shashavali" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="diwan shashavali" height="30" width="40" /></a>
-</p>
+#### 2️⃣ props.conf
+```ini
+[apache:access]
+TIME_PREFIX = \[
+TIME_FORMAT = %d/%b/%Y:%H:%M:%S %z
+SHOULD_LINEMERGE = false
+REPORT-access = apache_access_extractions
+```
 
-<h3 align="left">Languages and Tools:</h3>
-<p align="left"> <a href="https://www.linux.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="linux" width="40" height="40"/> </a> </p>
+### 📊 Dashboard Overview
+Key panels:
+| Metric | Description |
+|--------|--------------|
+| Top 10 Visitor IPs | Shows IPs generating most traffic |
+| Top 10 Requested URLs | Most visited pages |
+| HTTP Status Breakdown | Pie chart of 200, 404, 500 responses |
+| 404 Error Sources | IPs that triggered errors |
+| Traffic Over Time | Timechart of all requests |
+
+### 🕵️‍♂️ Example Search Queries
+```spl
+index=web_index sourcetype=apache:access 
+| stats count by clientip 
+| sort - count
+```
+
+```spl
+index=web_index sourcetype=apache:access 
+| stats count by uri_path 
+| sort - count
+```
+
+```spl
+index=web_index sourcetype=apache:access 
+| timechart count by status
+```
+
+### 📷 Screenshots
+Add dashboard screenshots here:
+```
+/screenshots/
+├── overview.png
+├── errors.png
+```
+
+### 🧪 Sample Data
+Use the included sample Apache log file (`sample_logs/apache_access.log`) or your own.
+
+### 🚀 Setup Instructions
+1. Copy configs into `$SPLUNK_HOME/etc/system/local/`
+2. Create index: `splunk add index web_index`
+3. Restart Splunk
+4. Import dashboard XML via UI
+
+### 📘 Learnings
+- Parsing and ingesting web server logs
+- Creating Splunk dashboards
+- Using SPL queries for insights
+
+### 🏷️ Tags
+#Splunk #Dashboard #ApacheLogs #SIEM #DataAnalytics

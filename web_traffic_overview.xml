@@ -1,0 +1,51 @@
+<dashboard>
+  <label>Web Traffic Overview</label>
+  <row>
+    <panel>
+      <title>Top 10 Visitor IPs</title>
+      <table>
+        <search>
+          <query>index=web_index sourcetype=apache:access | stats count by clientip | sort - count | head 10</query>
+        </search>
+      </table>
+    </panel>
+    <panel>
+      <title>Top 10 Requested URLs</title>
+      <table>
+        <search>
+          <query>index=web_index sourcetype=apache:access | stats count by uri_path | sort - count | head 10</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>HTTP Status Breakdown</title>
+      <chart>
+        <search>
+          <query>index=web_index sourcetype=apache:access | stats count by status</query>
+        </search>
+        <option name="charting.chart">pie</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>404 Error Sources</title>
+      <table>
+        <search>
+          <query>index=web_index sourcetype=apache:access status=404 | stats count by clientip | sort - count | head 10</query>
+        </search>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Traffic Over Time</title>
+      <chart>
+        <search>
+          <query>index=web_index sourcetype=apache:access | timechart count</query>
+        </search>
+        <option name="charting.chart">line</option>
+      </chart>
+    </panel>
+  </row>
+</dashboard>
